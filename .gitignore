@@ -1,0 +1,10 @@
+# env
+/.env_locale
+/.env_prod
+
+
+# virtual env
+/.venv
+/.idea
+
+

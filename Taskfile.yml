@@ -1,0 +1,27 @@
+version: '3'
+
+tasks:
+  runserver:
+    desc: start local server
+    cmds:
+      - poetry run python manage.py runserver
+
+  migrate:
+    desc: migrate DB
+    cmds:
+      - poetry run python manage.py migrate
+
+  makemigrations:
+    desc: create migrations for model
+    cmds:
+      - poetry run python manage.py makemigrations
+
+  createsuperuser:
+    desc: create superuser
+    cmds:
+      - poetry run python manage.py createsuperuser
+
+  shell:
+    desc: start django shell console
+    cmds:
+      - poetry run python manage.py shell
