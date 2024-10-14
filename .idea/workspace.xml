@@ -5,20 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aecf0905-625f-4975-82a3-3dd636ad8d73" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/MyHouse24.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_schema.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyHouse24/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyHouse24/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyHouse24/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyHouse24/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyHouse24/wsgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyHouse24/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyHouse24/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/asgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyHouse24/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyHouse24/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyHouse24/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/wsgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Taskfile.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Taskfile.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/poetry.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +27,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -58,6 +58,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="MyHouse24" type="Python.DjangoServer" factoryName="Django server">
       <module name="MyHouse24" />
@@ -103,7 +108,7 @@
       <workItem from="1728551255874" duration="689000" />
       <workItem from="1728665521575" duration="59000" />
       <workItem from="1728665590188" duration="4189000" />
-      <workItem from="1728905417102" duration="925000" />
+      <workItem from="1728905417102" duration="2973000" />
     </task>
     <servers />
   </component>

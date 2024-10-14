@@ -1,27 +1,32 @@
 version: '3'
 
 tasks:
-  runserver:
-    desc: start local server
+  install:
+    desc: Install all dependencies using Poetry
     cmds:
-      - poetry run python manage.py runserver
+      - /Users/valeriiastartseva/.local/bin/poetry install
+
+  runserver:
+    desc: Start local server
+    cmds:
+      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py runserver
 
   migrate:
-    desc: migrate DB
+    desc: Migrate DB
     cmds:
-      - poetry run python manage.py migrate
+      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py migrate
 
   makemigrations:
-    desc: create migrations for model
+    desc: Create migrations for model
     cmds:
-      - poetry run python manage.py makemigrations
+      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py makemigrations
 
   createsuperuser:
-    desc: create superuser
+    desc: Create superuser
     cmds:
-      - poetry run python manage.py createsuperuser
+      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py createsuperuser
 
   shell:
-    desc: start django shell console
+    desc: Start django shell console
     cmds:
-      - poetry run python manage.py shell
+      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py shell
