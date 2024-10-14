@@ -57,6 +57,20 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-adminlte3"
+version = "0.1.6"
+description = "Admin LTE templates, admin theme, and template tags for Django"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "django-adminlte3-0.1.6.tar.gz", hash = "sha256:46d10068979145fa997051ddc78a29fc264ab2f17de321f38ed40c71dad3ca7e"},
+    {file = "django_adminlte3-0.1.6-py3-none-any.whl", hash = "sha256:f11bfc828830f9e6b0692a5ac597151372baca31eaa23733ae23be4cdb677aa6"},
+]
+
+[package.dependencies]
+django = "*"
+
+[[package]]
 name = "filelock"
 version = "3.16.1"
 description = "A platform independent file lock."
@@ -242,4 +256,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12"
-content-hash = "9d04cfbe6b9f2eeb38b14d7bcaaf8d7317ab0ab4f3a48a74dbaa66e2af94f33d"
+content-hash = "0193368152da2d53c48f8f4e99642fe4f0b7154ad450200365c405f7beb7cda0"

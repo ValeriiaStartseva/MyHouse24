@@ -6,6 +6,11 @@ tasks:
     cmds:
       - /Users/valeriiastartseva/.local/bin/poetry install
 
+  collectstatic:
+    desc: collect statics
+    cmds:
+      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py collectstatic
+
   runserver:
     desc: Start local server
     cmds:

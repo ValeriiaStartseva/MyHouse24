@@ -10,6 +10,7 @@ repos:
     hooks:
       - id: end-of-file-fixer
       - id: check-json
+        exclude: 'staticfiles/admin-lte/node_modules/.*'
       - id: check-toml
       - id: check-xml
       - id: check-yaml
@@ -22,6 +23,7 @@ repos:
       - id: check-merge-conflict
       - id: forbid-new-submodules
       - id: pretty-format-json
+        files: '^((?!staticfiles/admin-lte/node_modules/).)*$'
         args:
           - --autofix
           - --indent=4
@@ -49,4 +51,6 @@ repos:
     rev: v1.34.1
     hooks:
       - id: djlint-reformat-django
+        exclude: ^staticfiles/admin-lte/
       - id: djlint-django
+        exclude: ^staticfiles/admin-lte/
