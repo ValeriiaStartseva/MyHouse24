@@ -1,25 +1,45 @@
 from pathlib import Path
+from decouple import config
+from dotenv import load_dotenv
+
+
+ENVIRONMENT = config("ENVIRONMENT", default="local")
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+if ENVIRONMENT == "local":
+    load_dotenv(BASE_DIR / ".env_local")
+else:
+    load_dotenv(BASE_DIR / ".env_prod")
 
-SECRET_KEY = "django-insecure-w8h!zndv!xdd3c$a3cs#!aae!48bg&1_cvu(d7w-@pt8a$uj-#"
 
-DEBUG = True
+SECRET_KEY = config("SECRET_KEY")
 
-ALLOWED_HOSTS = []
+DEBUG = config("DEBUG", default=True, cast=bool)
+
+
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS",
+    default="localhost",
+    cast=lambda v: [s.strip() for s in v.split(",")],
+)
 
 
 INSTALLED_APPS = [
-    "adminlte3",
-    # "django_adminlte3_theme",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # apps
+    "src.core",
+    "src.users",
+    "src.houses",
+    "src.roles",
+    "src.service",
+    "src.payments_section",
 ]
 
 
@@ -56,10 +76,15 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": config("DB_NAME"),
+        "USER": config("DB_USER"),
+        "PASSWORD": config("DB_PASSWORD"),
+        "HOST": config("DB_HOST", default="localhost"),
+        "PORT": config("DB_PORT", default="3306"),
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
