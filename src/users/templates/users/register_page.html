@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description"
+              content="Реєстрація нового мешканця на платформі MyHouse24">
+        <meta name="keywords" content="реєстрація, мешканець, платформа, MyHouse24">
+        <title>Реєстрація</title>
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <!-- Font Awesome -->
+        <link rel="stylesheet"
+              href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
+        <!-- icheck bootstrap -->
+        <link rel="stylesheet"
+              href="{% static 'adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+        <!-- Theme style -->
+        <link rel="stylesheet"
+              href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+        <style>
+    .register-logo img {
+      max-width: 300px;
+    }
+
+    .card {
+      margin-top: -1px;
+    }
+
+    html::before {
+      content: " ";
+      z-index: 2147483647;
+      pointer-events: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+        </style>
+    </head>
+    <body class="hold-transition register-page">
+        <div class="register-box">
+            <div class="register-logo">
+                <a href="#">
+                    <img src="{% static 'img/logo.svg' %}" alt="Logo" width="300" height="100">
+                </a>
+            </div>
+            <div class="card">
+                <div class="card-body register-card-body">
+                    <p class="login-box-msg">Реєстрація нового мешканця</p>
+                    <form action="{% url 'register' %}" method="post" id="registrationForm">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="name" placeholder="ПІБ">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" name="email" placeholder="Email">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password"
+                                   class="form-control"
+                                   name="password1"
+                                   placeholder="Пароль">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password"
+                                   class="form-control"
+                                   name="password2"
+                                   placeholder="Повторити пароль">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="icheck-primary">
+                                    <input type="checkbox" id="agreeTerms" name="accept_policy" value="agree">
+                                    <label for="agreeTerms">
+                                        Я згоден з <a href="#">політикою конфіденційності</a>
+                                    </label>
+                                </div>
+                                <div class="g-recaptcha"
+                                     data-sitekey="6Le7PmsqAAAAAEiYKTcXbSJpRvmmHMSD_4psiOtR"></div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="role" value="resident">
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-block">Зареєструватись</button>
+                            </div>
+                        </div>
+                    </form>
+                    <a href="{% url 'account_login' %}" class="text-center">В мене вже є акаунт</a>
+                </div>
+            </div>
+        </div>
+        <!-- Scripts -->
+        <script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <!-- AJAX Form Submission Script -->
+        <script>
+$(document).ready(function() {
+  $('#registrationForm').on('submit', function(e) {
+    e.preventDefault(); // Зупинити стандартну відправку форми
+
+    // Отримуємо reCAPTCHA відповідь
+    let recaptchaResponse = grecaptcha.getResponse();
+    if (!recaptchaResponse) {
+      alert("Будь ласка, підтвердіть reCAPTCHA.");
+      return;
+    }
+
+    // Додаємо відповідь reCAPTCHA до даних форми
+    let formData = $(this).serialize() + "&g-recaptcha-response=" + recaptchaResponse;
+
+    $.ajax({
+      url: $(this).attr('action'), // URL для відправки форми
+      type: 'POST',
+      data: formData, // Передаємо всі дані форми разом з reCAPTCHA
+
+          success: function(response) {
+    let redirectUrl;
+
+    // Перевіряємо, чи є `redirect_url` безпосередньо у відповіді
+    if (response.redirect_url) {
+      redirectUrl = response.redirect_url;
+    }
+    // Якщо `redirect_url` немає, але є `html`, пробуємо розпарсити його
+    else if (response.html) {
+      try {
+        const parsedHtml = JSON.parse(response.html); // Розпарсити `html` як JSON
+        redirectUrl = parsedHtml.redirect_url; // Витягуємо `redirect_url`
+      } catch (e) {
+        console.error("Помилка парсингу JSON у HTML:", e);
+      }
+    }
+
+    // Виконуємо редірект, якщо `redirect_url` успішно витягнуто
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+    } else {
+    }
+  },
+
+      error: function(xhr) {
+        let errors = xhr.responseJSON.errors || JSON.parse(xhr.responseJSON.html).errors;
+        $('.error-message').remove(); // Видаляємо старі повідомлення про помилки
+
+        for (let field in errors) {
+          let errorText = errors[field][0];
+          let input = $('[name="' + field + '"]');
+          input.closest('.input-group').after('<div class="error-message text-danger">' + errorText + '</div>');
+        }
+      }
+    });
+  });
+});
+
+        </script>
+    </body>
+</html>

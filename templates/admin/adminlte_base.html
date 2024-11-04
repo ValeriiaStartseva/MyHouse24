@@ -1,16 +1,28 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="CRM Admin Panel">
         <meta name="keywords" content="admin panel, crm">
-        <title>
-            {% block title %}
-                Панель адміністратора
-            {% endblock title %}
-        </title>
+        {#        <title>#}
+        {#    {% block title %}#}
+        {#        {% if user_role == 'Director' %}#}
+        {#            Панель директора#}
+        {#        {% elif user_role == 'Manager' %}#}
+        {#            Панель менеджера#}
+        {#        {% elif user_role == 'Accountant' %}#}
+        {#            Панель бухгалтера#}
+        {#        {% elif user_role == 'Electrician' %}#}
+        {#            Панель електрика#}
+        {#        {% elif user_role == 'Plumber' %}#}
+        {#            Панель сантехніка#}
+        {#        {% else %}#}
+        {#            Панель користувача#}
+        {#        {% endif %}#}
+        {#    {% endblock title %}#}
+        {#</title>#}
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet"
               href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -77,13 +89,13 @@
             <!-- Main Sidebar Container -->
             <aside class="main-sidebar sidebar-light-primary elevation-4">
                 <!-- Brand Logo -->
-                <div class="brand-link">
-                    <img src="{% static 'img/logo.png' %}"
-                         alt="Logo"
-                         class="brand-image logo-image"
-                         height="50"
-                         width="auto">
-                </div>
+                {#                <div class="brand-link">#}
+                {#                    <img src="{% static 'img/logo.png' %}"#}
+                {#                         alt="Logo"#}
+                {#                         class="brand-image logo-image"#}
+                {#                         height="50"#}
+                {#                         width="auto">#}
+                {#                </div>#}
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <!-- Sidebar Menu -->
@@ -92,148 +104,182 @@
                             data-widget="treeview"
                             role="menu"
                             data-accordion="false">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-chart-pie"></i>
-                                    <p>Статистика</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-dollar-sign"></i>
-                                    <p>Каса</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-file-invoice"></i>
-                                    <p>Квитанції на оплату</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-check"></i>
-                                    <p>Особисті рахунки</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-building"></i>
-                                    <p>Квартири</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-address-card"></i>
-                                    <p>Власники квартир</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-home"></i>
-                                    <p>Дома</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-envelope"></i>
-                                    <p>Повідомлення</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-wrench"></i>
-                                    <p>Виклик майстра</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Показання лічильників</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-cog"></i>
-                                    <p>
-                                        Управління сайтом
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-minus nav-icon"></i>
-                                            <p>Головна сторінка</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-minus nav-icon"></i>
-                                            <p>Про нас</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-minus nav-icon"></i>
-                                            <p>Послуги</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-minus nav-icon"></i>
-                                            <p>Контакти</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-server"></i>
-                                    <p>
-                                        Налаштування
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-minus nav-icon"></i>
-                                            <p>Послуги</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-minus nav-icon"></i>
-                                            <p>Тарифи</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-minus nav-icon"></i>
-                                            <p>Ролі</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-minus nav-icon"></i>
-                                            <p>Користувачі</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-minus nav-icon"></i>
-                                            <p>Платіжні реквізити</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-minus nav-icon"></i>
-                                            <p>Платежі</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            {% if perms.roles.view_dashboard %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-chart-pie"></i>
+                                        <p>Статистика</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_payment_section %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-dollar-sign"></i>
+                                        <p>Каса</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_receipt %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-file-invoice"></i>
+                                        <p>Квитанції на оплату</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_personal_account %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-check"></i>
+                                        <p>Особисті рахунки</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_personal_apartments %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-building"></i>
+                                        <p>Квартири</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_apartment_owners %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-address-card"></i>
+                                        <p>Власники квартир</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_houses %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-home"></i>
+                                        <p>Дома</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_messages %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-envelope"></i>
+                                        <p>Повідомлення</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_master_application %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-wrench"></i>
+                                        <p>Виклик майстра</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_amount_services %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                                        <p>Показання лічильників</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_manage_site %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-cog"></i>
+                                        <p>
+                                            Управління сайтом
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-minus nav-icon"></i>
+                                                <p>Головна сторінка</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-minus nav-icon"></i>
+                                                <p>Про нас</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-minus nav-icon"></i>
+                                                <p>Послуги</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-minus nav-icon"></i>
+                                                <p>Контакти</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            {% if perms.roles.view_system_settings %}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-server"></i>
+                                        <p>
+                                            Налаштування
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        {% if perms.roles.view_services %}
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="fas fa-minus nav-icon"></i>
+                                                    <p>Послуги</p>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        {% if perms.roles.view_tariffs %}
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="fas fa-minus nav-icon"></i>
+                                                    <p>Тарифи</p>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        {% if perms.roles.view_roles %}
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="fas fa-minus nav-icon"></i>
+                                                    <p>Ролі</p>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        {% if perms.roles.view_users %}
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="fas fa-minus nav-icon"></i>
+                                                    <p>Користувачі</p>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        {% if perms.roles.view_payment_details %}
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="fas fa-minus nav-icon"></i>
+                                                    <p>Платіжні реквізити</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="fas fa-minus nav-icon"></i>
+                                                    <p>Платежі</p>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                            {% endif %}
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->

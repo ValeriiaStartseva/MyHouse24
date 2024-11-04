@@ -42,13 +42,19 @@ class PersonalAccount(models.Model):  # особистий рахунок
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
 
 
+class Account(models.Model):
+    TYPE_CHOICES = (("income", "Приходи"), ("expenses", "Витрати"))
+    name = models.CharField(max_length=30)
+    type = models.CharField(choices=TYPE_CHOICES, default="income", max_length=15)
+
+
 class InStatement(models.Model):  # прихідна відомість
     number = models.IntegerField()
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="owned_instatements"
     )
     personal_account = models.ForeignKey(PersonalAccount, on_delete=models.CASCADE)
-    # item =
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
     manager = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
     amount = models.FloatField()
@@ -58,7 +64,7 @@ class InStatement(models.Model):  # прихідна відомість
 
 class ExStatement(models.Model):  # розхідна видомість
     number = models.IntegerField()
-    # item =
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
     amount = models.FloatField()
     date = models.DateField()
     manager = models.ForeignKey(User, on_delete=models.CASCADE)

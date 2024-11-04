@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description"
+              content="Вхід в особистий кабінет платформи MyHouse24">
+        <meta name="keywords"
+              content="вхід, особистий кабінет, MyHouse24, мешканець, адміністрація">
+        <title>Вхід</title>
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <!-- Font Awesome -->
+        <link rel="stylesheet"
+              href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
+        <!-- icheck bootstrap -->
+        <link rel="stylesheet"
+              href="{% static 'adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+        <!-- Theme style -->
+        <link rel="stylesheet"
+              href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+        <style>
+    .login-logo img {
+      max-width: 300px;
+    }
+
+    .nav-tabs {
+      width: 100%;
+      justify-content: space-around;
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .nav-item {
+      width: 50%;
+      flex-grow: 1;
+      text-align: center;
+      margin-bottom: -1px; /* Bring the tabs closer to the card */
+    }
+
+    .nav-link {
+      width: 100%;
+      text-align: center;
+      background-color: #fff;
+      color: #aaa;
+      border: 1px solid transparent;
+      border-bottom: none;
+      border-radius: 0;
+    }
+
+    .nav-link.active {
+      background-color: #fff;
+      color: #000;
+      border-color: transparent;
+      border-top: 3px solid #337ab7;
+    }
+
+    .nav-link:hover {
+      color: #555;
+    }
+
+    .card {
+      margin-top: -1px; /* Adjust to eliminate the gap */
+    }
+
+    html::before {
+      content: " ";
+      z-index: 2147483647;
+      pointer-events: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+        </style>
+    </head>
+    <body class="hold-transition login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="#">
+                    <img src="{% static 'img/logo.svg' %}" alt="Logo" width="300" height="100">
+                </a>
+            </div>
+            <!-- Tab Content -->
+            <!-- Nav Tabs -->
+            <ul class="nav nav-tabs" id="login-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active"
+                       id="login-resident-tab"
+                       href="#tab_1"
+                       role="tab"
+                       data-toggle="tab">Для мешканця</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       id="login-admin-tab"
+                       href="#tab_2"
+                       role="tab"
+                       data-toggle="tab">Для адміністрації</a>
+                </li>
+            </ul>
+            <div class="card">
+                <div class="card-body login-card-body">
+                    <!-- Dynamic Message -->
+                    <p class="login-box-msg" id="login-message">Вхід в особистий кабінет</p>
+                    <form id="login-form" action="{% url 'account_login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="email"
+                                   name="login"
+                                   class="form-control"
+                                   placeholder="E-mail"
+                                   required>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password"
+                                   name="password"
+                                   class="form-control"
+                                   placeholder="Пароль"
+                                   required>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="g-recaptcha"
+                             data-sitekey="6Le7PmsqAAAAAEiYKTcXbSJpRvmmHMSD_4psiOtR"></div>
+                        <input type="hidden" name="role" id="role" value="resident">
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-block">Увійти</button>
+                            </div>
+                        </div>
+                    </form>
+                    <a href="{% url 'register' %}" class="text-center">Зареєструватись</a>
+                </div>
+            </div>
+        </div>
+        <!-- Scripts -->
+        <script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <!-- Custom Script for Tabs -->
+        <script>
+$(document).ready(function() {
+  $('#login-tabs a').on('click', function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+
+    const tabId = $(this).attr('id');
+    if (tabId === 'login-resident-tab') {
+      $('#login-message').text('Вхід в особистий кабінет');
+      $('#role').val('resident');
+    } else if (tabId === 'login-admin-tab') {
+      $('#login-message').text('Вхід в панель управління');
+      $('#role').val('admin');
+    }
+  });
+
+  // Обробник події submit для форми
+  $('#login-form').on('submit', function(e) {
+    e.preventDefault(); // Зупинити стандартну відправку форми
+
+    // Отримуємо reCAPTCHA відповідь
+    let recaptchaResponse = grecaptcha.getResponse();
+    if (!recaptchaResponse) {
+      alert("Будь ласка, підтвердіть reCAPTCHA.");
+      return;
+    }
+
+    // Додаємо відповідь reCAPTCHA до даних форми
+    let formData = $(this).serialize() + "&g-recaptcha-response=" + recaptchaResponse;
+
+    $.ajax({
+      url: $(this).attr('action'), // URL для відправки форми
+      type: 'POST',
+      data: formData, // Передаємо всі дані форми разом з reCAPTCHA
+      success: function(response) {
+        let redirectUrl;
+
+        if (response.redirect_url) {
+          redirectUrl = response.redirect_url;
+        } else if (response.html) {
+          try {
+            const parsedHtml = JSON.parse(response.html);
+            redirectUrl = parsedHtml.redirect_url;
+          } catch (e) {
+            console.error("Помилка парсингу JSON у HTML:", e);
+          }
+        }
+
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        }
+      },
+      error: function(xhr) {
+        // Очищення попередніх повідомлень про помилки
+        $('.error-message').remove();
+
+        // Отримуємо помилки з відповіді сервера
+        let errors;
+        try {
+          errors = xhr.responseJSON.errors || JSON.parse(xhr.responseJSON.html).errors;
+        } catch (e) {
+          console.error("Помилка обробки JSON:", e);
+          return;
+        }
+
+        // Відображення загальних помилок
+        if (errors['__all__']) {
+          // Створюємо контейнер для загальних помилок у верхній частині форми
+          $('#login-form').prepend('<div class="error-message text-danger">' + errors['__all__'][0] + '</div>');
+        }
+
+        // Відображення помилок по полях
+        for (let field in errors) {
+          if (field !== '__all__') { // Пропустити загальні помилки
+            let errorText = errors[field][0];
+            let input = $('[name="' + field + '"]');
+            input.closest('.input-group').after('<div class="error-message text-danger">' + errorText + '</div>');
+          }
+        }
+      }
+    });
+  });
+});
+
+        </script>
+    </body>
+</html>

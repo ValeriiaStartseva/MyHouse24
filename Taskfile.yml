@@ -4,37 +4,37 @@ tasks:
   install:
     desc: Install all dependencies using Poetry
     cmds:
-      - /Users/valeriiastartseva/.local/bin/poetry install
+      - poetry install
 
   collectstatic:
     desc: collect statics
     cmds:
-      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py collectstatic
+      - poetry run python manage.py collectstatic
 
   runserver:
     desc: Start local server
     cmds:
-      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py runserver
+      - poetry run python manage.py runserver
 
   migrate:
     desc: Migrate DB
     cmds:
-      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py migrate
+      - poetry run python manage.py migrate
 
   makemigrations:
     desc: Create migrations for model
     cmds:
-      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py makemigrations
+      - poetry run python manage.py makemigrations
 
   createsuperuser:
     desc: Create superuser
     cmds:
-      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py createsuperuser
+      - poetry run python manage.py createsuperuser
 
   shell:
     desc: Start django shell console
     cmds:
-      - /Users/valeriiastartseva/.local/bin/poetry run python manage.py shell
+      - poetry run python manage.py shell
 
   git_push:
     desc: Commit and push changes to the repository with a custom commit message
@@ -44,4 +44,6 @@ tasks:
         echo "Enter your commit message:"
         read commit_message
         git commit -m "$commit_message"
+      - git add .  # Додає файли, які були змінені pre-commit хуками
+      - git commit --amend --no-edit  # Додає зміни до попереднього коміту
       - git push origin main
