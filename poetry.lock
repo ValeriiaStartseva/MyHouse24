@@ -337,6 +337,16 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-ajax-datatable"
+version = "4.5.0"
+description = "Helper class to integrate Django with datatables"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django_ajax_datatable-4.5.0-py2.py3-none-any.whl", hash = "sha256:99233042e6c7d03ed730ea13b4dba1c3e8a66dd1f57022a07b29acb8812ad6f1"},
+]
+
+[[package]]
 name = "django-allauth"
 version = "65.1.0"
 description = "Integrated set of Django applications addressing authentication, registration, account management as well as 3rd party (social) account authentication."
@@ -931,4 +941,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12"
-content-hash = "e9d920a4b3dae7526039b21821f1de230e1ccfb5aa0eabe8403069463d7c172c"
+content-hash = "91dab2c840750ebd55923c909a8d42e9ab8f430fab8ea161118e02021111a064"

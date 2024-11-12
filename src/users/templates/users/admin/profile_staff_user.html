@@ -1,0 +1,109 @@
+{% extends "admin/adminlte_base.html" %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'users-staff' %}">Користувачі</a>
+        </li>
+        <li class="breadcrumb-item active">Користувач</li>
+    </ol>
+{% endblock breadcrumb %}
+{% block page_title %}
+    Користувач
+{% endblock page_title %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description"
+              content="Створення облікового запису для адміністратора">
+        <meta name="keywords" content="обліковий запис, адміністратор, підтримка">
+        <title>Користувач</title>
+        <style>
+    .table th {
+      width: 200px;
+      font-weight: bold;
+      background-color: #f8f9fa;
+    }
+
+    .table td {
+      vertical-align: middle;
+    }
+
+    .badge-secondary {
+      background-color: #6c757d;
+    }
+
+    .badge-success {
+      background-color: #28a745;
+    }
+
+    .badge-danger {
+      background-color: #dc3545;
+    }
+
+    #usersStaffTable tbody tr {
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+
+    #usersStaffTable tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+        </style>
+    </head>
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+                {% block content %}
+                    <section class="content">
+                        <div class="container-fluid">
+                            <div class="d-flex justify-content-end mb-3">
+                                <a href="{% url 'users-staff-edit' user.pk %}" class="btn btn-success">Редагувати користувача</a>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th>Користувач</th>
+                                                <td>{{ user.name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Роль</th>
+                                                <td>{{ user.role }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Телефон</th>
+                                                <td>{{ user.phone }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Email</th>
+                                                <td>{{ user.email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Статус</th>
+                                                <td>
+                                                    {% if user.status == "new" %}
+                                                        <span class="badge badge-secondary">Новий</span>
+                                                    {% elif user.status == "active" %}
+                                                        <span class="badge badge-success">Активний</span>
+                                                    {% elif user.status == "disabled" %}
+                                                        <span class="badge badge-danger">Неактивний</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                {% endblock content %}
+            </div>
+        </div>
+    </body>
+</html>

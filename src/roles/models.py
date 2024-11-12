@@ -12,7 +12,12 @@ class RolePermission(Group):
     ]
 
     def __str__(self):
-        return self.name
+        return self.get_display_name()
+
+    def get_display_name(self):
+        # Знаходимо українську назву ролі з ROLE_CHOICES
+        role_dict = dict(self.ROLE_CHOICES)
+        return role_dict.get(self.name, self.name)
 
     @classmethod
     def create_standard_roles(cls):

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description"
+              content="Створення облікового запису для адміністратора">
+        <meta name="keywords" content="обліковий запис, адміністратор, підтримка">
+        <title>Обліковий запис створено</title>
+    </head>
+    <body>
+        <p>Шановний {{ admin_user_name }},</p>
+        <p>Вам створено обліковий запис з наступною інформацією:</p>
+        <ul>
+            <li>
+                <strong>Роль:</strong> {{ roles }}
+            </li>
+            <li>
+                <strong>Електронна пошта:</strong> {{ recipient_email }}
+            </li>
+            <li>
+                <strong>Пароль:</strong> {{ password }}
+            </li>
+        </ul>
+        <p>Будь ласка, не передавайте свій пароль третім особам. Рекомендуємо змінити його після першого входу.</p>
+        <p>
+            З повагою,
+            <br>
+            Команда підтримки
+        </p>
+    </body>
+</html>

@@ -1,36 +1,21 @@
+# tasks.py
 from celery import shared_task
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from django.contrib.auth.tokens import default_token_generator
-from src.users.models import User
+from django.utils.html import strip_tags
+from django.conf import settings
 
 
 @shared_task
-def send_confirmation_email(user_id, domain):
-    try:
-        user = User.objects.get(pk=user_id)
-        mail_subject = "Активуйте свій обліковий запис"
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
+def send_email_task(subject, template_name, context, recipient_email):
+    html_content = render_to_string(template_name, context)
+    text_content = strip_tags(html_content)
 
-        message = render_to_string(
-            "users/email_confirmation.html",
-            {
-                "user": user,
-                "domain": domain,
-                "uid": uid,
-                "token": token,
-            },
-        )
-
-        send_mail(
-            mail_subject,
-            message,
-            "no-reply@mydomain.com",
-            [user.email],
-            fail_silently=False,
-        )
-    except User.DoesNotExist:
-        pass  # Обробка випадку, коли користувача немає
+    email = EmailMultiAlternatives(
+        subject=subject,
+        body=text_content,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[recipient_email],
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()

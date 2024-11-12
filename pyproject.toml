@@ -18,6 +18,7 @@ psycopg2-binary = "^2.9.10"
 psycopg = "^3.2.3"
 django = "^5.1.2"
 celery = "^5.4.0"
+django-ajax-datatable = "^4.5.0"
 
 
 [tool.poetry.group.dev.dependencies]

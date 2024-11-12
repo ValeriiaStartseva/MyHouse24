@@ -1,0 +1,153 @@
+{% extends "admin/adminlte_base.html" %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'users-staff' %}">Користувачі</a>
+        </li>
+        <li class="breadcrumb-item active">Створити користувача</li>
+    </ol>
+{% endblock breadcrumb %}
+{% block page_title %}
+    Створити користувача
+{% endblock page_title %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="CRM Admin Panel">
+        <meta name="keywords" content="admin panel, crm">
+        <title>Користувачі</title>
+        <style>
+    .form-group.has-error
+    .form-group.has-error .input-group-addon {
+        border-color: #dd4b39;
+        box-shadow: none;
+    }
+    .form-group.has-success .form-control,
+    .form-group.has-success .input-group-addon {
+        border-color: #00a65a;
+        box-shadow: none;
+    }
+        </style>
+    </head>
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+                {% block content %}
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <form method="post" action="{% url 'users-staff-create' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group {% if form.name.errors %}has-error{% elif form.name.value %}has-success{% endif %}">
+                                            {{ form.name.label_tag }}
+                                            {{ form.name }}
+                                            {% if form.name.errors %}<span class="help-block text-danger">{{ form.name.errors.0 }}</span>{% endif %}
+                                        </div>
+                                        <div class="form-group {% if form.phone.errors %}has-error{% elif form.phone.value %}has-success{% endif %}">
+                                            {{ form.phone.label_tag }}
+                                            {{ form.phone }}
+                                            {% if form.phone.errors %}<span class="help-block text-danger">{{ form.phone.errors.0 }}</span>{% endif %}
+                                        </div>
+                                        <div class="form-group {% if form.role.errors %}has-error{% elif form.role.value %}has-success{% endif %}">
+                                            {{ form.role.label_tag }}
+                                            {{ form.role }}
+                                            {% if form.role.errors %}<span class="help-block text-danger">{{ form.role.errors.0 }}</span>{% endif %}
+                                        </div>
+                                        <div class="form-group {% if form.status.errors %}has-error{% elif form.status.value %}has-success{% endif %}">
+                                            {{ form.status.label_tag }}
+                                            {{ form.status }}
+                                            {% if form.status.errors %}<span class="help-block text-danger">{{ form.status.errors.0 }}</span>{% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group {% if form.email.errors %}has-error{% elif form.email.value %}has-success{% endif %}">
+                                            {{ form.email.label_tag }}
+                                            {{ form.email }}
+                                            {% if form.email.errors %}<span class="help-block text-danger">{{ form.email.errors.0 }}</span>{% endif %}
+                                        </div>
+                                        <div class="form-group {% if form.password1.errors %}has-error{% elif form.password1.value %}has-success{% endif %}">
+                                            {{ form.password1.label_tag }}
+                                            <div class="input-group">
+                                                {{ form.password1 }}
+                                                <div class="input-group-append">
+                                                    <button type="button"
+                                                            class="btn btn-outline-secondary"
+                                                            onclick="generatePassword()">Згенерувати</button>
+                                                    <button type="button"
+                                                            class="btn btn-outline-secondary"
+                                                            onclick="togglePasswordVisibility()">
+                                                        <i id="toggleIcon" class="fas fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            {% if form.password1.errors %}<span class="help-block text-danger">{{ form.password1.errors.0 }}</span>{% endif %}
+                                        </div>
+                                        <div class="form-group {% if form.password2.errors %}has-error{% elif form.password2.value %}has-success{% endif %}">
+                                            {{ form.password2.label_tag }}
+                                            {{ form.password2 }}
+                                            {% if form.password2.errors %}<span class="help-block text-danger">{{ form.password2.errors.0 }}</span>{% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Розташування кнопок -->
+                                <div class="row mt-4">
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <a href="{% url 'users-staff' %}" class="btn btn-secondary mr-2">Відмінити</a>
+                                        <button type="submit" class="btn btn-success">Зберегти</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% endblock content %}
+            </div>
+        </div>
+        <script src="{% static 'adminlte/plugins/select2/js/select2.full.min.js' %}"></script>
+        {% block extra_js %}
+            <script>
+function generatePassword() {
+     console.log("Generating password...");
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+    let password = "";
+    for (let i = 0; i < 12; i++) {
+        password += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+    }
+    document.getElementById("password1").value = password;
+    document.getElementById("password2").value = password;
+}
+
+function togglePasswordVisibility() {
+    const fields = ['password1', 'password2'];
+    fields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        const type = field.type === "password" ? "text" : "password";
+        field.type = type;
+    });
+
+    const icon = document.getElementById("toggleIcon");
+    icon.classList.toggle("fa-eye");
+    icon.classList.toggle("fa-eye-slash");
+}
+
+
+document.querySelectorAll(".form-control").forEach(input => {
+    input.addEventListener("input", function () {
+        const formGroup = this.closest(".form-group");
+        if (this.checkValidity()) {
+            formGroup.classList.remove("has-error");
+            formGroup.classList.add("has-success");
+        } else {
+            formGroup.classList.remove("has-success");
+            formGroup.classList.add("has-error");
+        }
+    });
+});
+            </script>
+        {% endblock extra_js %}
+    </body>
+</html>
