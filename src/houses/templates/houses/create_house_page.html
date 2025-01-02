@@ -1,0 +1,531 @@
+{% extends "admin/adminlte_base.html" %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'users-staff' %}">Дома</a>
+        </li>
+        <li class="breadcrumb-item active">Новий дім</li>
+    </ol>
+{% endblock breadcrumb %}
+{% block page_title %}
+    Новий дім
+{% endblock page_title %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="CRM Admin Panel">
+        <meta name="keywords" content="admin panel, crm">
+        <title>Створити дім</title>
+        <style>
+        .form-group.has-error .form-control,
+        .form-group.has-error .input-group-addon {
+            border-color: #dd4b39;
+            box-shadow: none;
+        }
+        .form-group.has-success .form-control,
+        .form-group.has-success .input-group-addon {
+            border-color: #00a65a;
+            box-shadow: none;
+        }
+        </style>
+    </head>
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+                {% block content %}
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <form method="post"
+                                  enctype="multipart/form-data"
+                                  action="{% url 'house-create' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <!-- Form Section -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.name.label_tag }}
+                                            {{ form.name }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.adress.label_tag }}
+                                            {{ form.adress }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>{{ form.image1.label_tag }}</label>
+                                            {{ form.image1 }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>{{ form.image2.label_tag }}</label>
+                                            {{ form.image2 }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>{{ form.image3.label_tag }}</label>
+                                            {{ form.image3 }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>{{ form.image4.label_tag }}</label>
+                                            {{ form.image4 }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>{{ form.image5.label_tag }}</label>
+                                            {{ form.image5 }}
+                                        </div>
+                                    </div>
+                                    <!-- Preview Images Section -->
+                                    <div class="col-md-6">
+                                        <div class="preview-container">
+                                            <!-- Large Image -->
+                                            <div class="large-image">
+                                                <img src="{% static 'img/pre_picture.jpeg' %}"
+                                                     alt="Зображення #1"
+                                                     class="img-fluid img-thumbnail">
+                                                {% if house.image1 %}
+                                                    <img src="{{ house.image1.url }}"
+                                                         alt="Фото 1"
+                                                         class="img-fluid img-thumbnail">
+                                                {% endif %}
+                                            </div>
+                                            <!-- Smaller Images -->
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <img src="{% static 'img/pre_picture.jpeg' %}"
+                                                         alt="Зображення #2"
+                                                         class="img-fluid img-thumbnail">
+                                                    {% if house.image2 %}
+                                                        <img src="{{ house.image2.url }}"
+                                                             alt="Фото 2"
+                                                             class="img-fluid img-thumbnail">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-6">
+                                                    <img src="{% static 'img/pre_picture.jpeg' %}"
+                                                         alt="Зображення #3"
+                                                         class="img-fluid img-thumbnail">
+                                                    {% if house.image3 %}
+                                                        <img src="{{ house.image3.url }}"
+                                                             alt="Фото 3"
+                                                             class="img-fluid img-thumbnail">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-6">
+                                                    <img src="{% static 'img/pre_picture.jpeg' %}"
+                                                         alt="Зображення #4"
+                                                         class="img-fluid img-thumbnail">
+                                                    {% if house.image4 %}
+                                                        <img src="{{ house.image4.url }}"
+                                                             alt="Фото 4"
+                                                             class="img-fluid img-thumbnail">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-6">
+                                                    <img src="{% static 'img/pre_picture.jpeg' %}"
+                                                         alt="Зображення #5"
+                                                         class="img-fluid img-thumbnail">
+                                                    {% if house.image5 %}
+                                                        <img src="{{ house.image5.url }}"
+                                                             alt="Фото 5"
+                                                             class="img-fluid img-thumbnail">
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="card card-primary card-outline card-outline-tabs">
+                                            <div class="card-header p-0 border-bottom-0">
+                                                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active"
+                                                           id="custom-tabs-four-sections-tab"
+                                                           data-toggle="pill"
+                                                           href="#custom-tabs-four-sections"
+                                                           role="tab"
+                                                           aria-controls="custom-tabs-four-sections"
+                                                           aria-selected="true">Секції</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                           id="custom-tabs-four-floors-tab"
+                                                           data-toggle="pill"
+                                                           href="#custom-tabs-four-floors"
+                                                           role="tab"
+                                                           aria-controls="custom-tabs-four-floors"
+                                                           aria-selected="false">Поверхи</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                           id="custom-tabs-four-users-tab"
+                                                           data-toggle="pill"
+                                                           href="#custom-tabs-four-users"
+                                                           role="tab"
+                                                           aria-controls="custom-tabs-four-users"
+                                                           aria-selected="false">Користувачі</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="tab-content" id="custom-tabs-four-tabContent">
+                                                    <div class="tab-pane fade show active"
+                                                         id="custom-tabs-four-sections"
+                                                         role="tabpanel"
+                                                         aria-labelledby="custom-tabs-four-sections-tab">
+                                                        {{ section_formset.management_form }}
+                                                        <div id="section-container">
+                                                            {% for form in section_formset %}
+                                                                <div class="form-group section-form"
+                                                                     data-form-index="{{ forloop.counter0 }}">
+                                                                    <label class="font-weight-bold mr-2">Назва</label>
+                                                                    {{ form.name }}
+                                                                    {{ form.DELETE.as_hidden }}
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn-danger remove-section">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="d-flex justify-content-end mt-2">
+                                                            <button type="button" class="btn btn-success" id="add-section">Додати</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade"
+                                                         id="custom-tabs-four-floors"
+                                                         role="tabpanel"
+                                                         aria-labelledby="custom-tabs-four-floors-tab">
+                                                        {{ floor_formset.management_form }}
+                                                        <div id="floor-container">
+                                                            {% for form in floor_formset %}
+                                                                <div class="form-group floor-form d-flex align-items-center"
+                                                                     data-form-index="{{ forloop.counter0 }}">
+                                                                    <label class="font-weight-bold mr-2">Номер</label>
+                                                                    <div class="input-group" style="flex-grow: 1;">
+                                                                        {{ form.number }}
+                                                                        {{ form.DELETE.as_hidden }}
+                                                                        <span class="input-group-btn">
+                                                                            <button type="button" class="btn btn-danger remove-floor">
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="d-flex justify-content-end mt-2">
+                                                            <button type="button" class="btn btn-success" id="add-floor">Додати</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade"
+                                                         id="custom-tabs-four-users"
+                                                         role="tabpanel"
+                                                         aria-labelledby="custom-tabs-four-users-tab">
+                                                        {{ staff_formset.management_form }}
+                                                        <div id="staff-role-container">
+                                                            {% for form in staff_formset %}
+                                                                <div class="form-group d-flex align-items-center"
+                                                                     data-form-index="{{ forloop.counter0 }}">
+                                                                    <label class="font-weight-bold mr-2">Користувач</label>
+                                                                    {{ form.user }}
+                                                                    <label class="font-weight-bold mr-2 ml-4">Роль</label>
+                                                                    {{ form.role }}
+                                                                    {{ form.DELETE.as_hidden }}
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn-danger remove-staff-role">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="d-flex justify-content-end mt-2">
+                                                            <button type="button" class="btn btn-success" id="add-staff-role">Додати</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <a href="{% url 'houses' %}" class="btn btn-secondary mr-2">Відмінити</a>
+                                        <button type="submit" class="btn btn-success">Зберегти</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% endblock content %}
+            </div>
+        </div>
+        {% block extra_js %}
+            <script>
+                 $(document).ready(function () {
+        $('.select2').select2({
+            width: 'resolve',  // Налаштування ширини
+            theme: 'bootstrap4',  // Тема для сумісності з AdminLTE
+        });
+    });
+            document.querySelectorAll(".form-control").forEach(input => {
+                input.addEventListener("input", function () {
+                    const formGroup = this.closest(".form-group");
+                    if (this.checkValidity()) {
+                        formGroup.classList.remove("has-error");
+                        formGroup.classList.add("has-success");
+                    } else {
+                        formGroup.classList.remove("has-success");
+                        formGroup.classList.add("has-error");
+                    }
+                });
+            });
+
+            // logic for section formset
+document.addEventListener("DOMContentLoaded", function () {
+    // Get the section container and the "Add Section" button
+    const sectionContainer = document.getElementById("section-container");
+    const addSectionButton = document.getElementById("add-section");
+    let sectionIndex = parseInt(document.getElementById("id_section_set-TOTAL_FORMS").value);
+
+    // Add a new section form
+    addSectionButton.addEventListener("click", function () {
+        const newSectionDiv = document.createElement("div");
+        newSectionDiv.classList.add("form-group", "section-form", "d-flex", "align-items-center");
+        newSectionDiv.setAttribute("data-form-index", sectionIndex);
+
+        newSectionDiv.innerHTML = `
+            <label for="id_section_set-${sectionIndex}-name" class="font-weight-bold mr-2">Назва</label>
+            <div class="input-group" style="flex-grow: 1;">
+                <input type="text" name="section_set-${sectionIndex}-name" class="form-control" id="id_section_set-${sectionIndex}-name">
+                <input type="hidden" name="section_set-${sectionIndex}-DELETE" id="id_section_set-${sectionIndex}-DELETE">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger form-row-remove-btn remove-section">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </span>
+            </div>
+        `;
+
+        // Append the new form to the container
+        sectionContainer.appendChild(newSectionDiv);
+
+        // Update TOTAL_FORMS
+        const totalFormsInput = document.getElementById("id_section_set-TOTAL_FORMS");
+        totalFormsInput.value = sectionIndex + 1;
+        sectionIndex++;
+
+        // Attach delete logic to the new form
+        newSectionDiv.querySelector(".remove-section").addEventListener("click", function () {
+            handleSectionDelete(newSectionDiv, true); // Pass `true` for new forms
+        });
+    });
+
+    // Attach delete logic to existing forms
+    document.querySelectorAll(".remove-section").forEach(button => {
+        button.addEventListener("click", function () {
+            const formDiv = button.closest(".section-form");
+            handleSectionDelete(formDiv, false); // Pass `false` for existing forms
+        });
+    });
+
+    // Handle deletion of a section form
+    function handleSectionDelete(formDiv, isNewForm) {
+        if (!formDiv) return;
+
+        if (isNewForm) {
+            // For new forms, completely remove the element
+            formDiv.remove();
+
+            // Update TOTAL_FORMS count
+            const totalFormsInput = document.getElementById("id_section_set-TOTAL_FORMS");
+            if (totalFormsInput) {
+                totalFormsInput.value = parseInt(totalFormsInput.value) - 1;
+            }
+        } else {
+            // For existing forms, mark the hidden DELETE checkbox
+            const deleteInput = formDiv.querySelector("input[type='hidden'][name*='DELETE']");
+            if (deleteInput) {
+                deleteInput.value = "on"; // Mark for deletion
+            }
+
+            // Hide the form visually
+            formDiv.style.display = "none";
+        }
+    }
+});
+
+// logic for floors formset
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Get the floor container and the "Add Floor" button
+    const floorContainer = document.getElementById("floor-container");
+    const addFloorButton = document.getElementById("add-floor");
+    let floorIndex = parseInt(document.getElementById("id_floor_set-TOTAL_FORMS").value);
+
+
+
+    // Add a new floor form
+    addFloorButton.addEventListener("click", function () {
+        const newFloorDiv = document.createElement("div");
+        newFloorDiv.classList.add("form-group", "floor-form", "d-flex", "align-items-center");
+        newFloorDiv.setAttribute("data-form-index", floorIndex);
+
+        newFloorDiv.innerHTML = `
+            <label for="id_floor_set-${floorIndex}-number" class="font-weight-bold mr-2">Номер</label>
+            <div class="input-group" style="flex-grow: 1;">
+                <input type="text" name="floor_set-${floorIndex}-number" class="form-control" id="id_floor_set-${floorIndex}-number">
+                <input type="hidden" name="floor_set-${floorIndex}-DELETE" id="id_floor_set-${floorIndex}-DELETE">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger form-row-remove-btn remove-floor">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </span>
+            </div>
+        `;
+
+        // Append the new form to the container
+        floorContainer.appendChild(newFloorDiv);
+
+        // Update TOTAL_FORMS
+        const totalFormsInput = document.getElementById("id_floor_set-TOTAL_FORMS");
+        totalFormsInput.value = floorIndex + 1;
+        floorIndex++;
+
+        // Attach delete logic to the new form
+        newFloorDiv.querySelector(".remove-floor").addEventListener("click", function () {
+            handleFloorDelete(newFloorDiv, true); // Pass `true` for new forms
+        });
+    });
+
+    // Attach delete logic to existing forms
+    document.querySelectorAll(".remove-floor").forEach(button => {
+        button.addEventListener("click", function () {
+            const formDiv = button.closest(".floor-form");
+            handleFloorDelete(formDiv, false); // Pass `false` for existing forms
+        });
+    });
+
+    // Handle deletion of a floor form
+    function handleFloorDelete(formDiv, isNewForm) {
+        if (!formDiv) return;
+
+
+        if (isNewForm) {
+            // For new forms, completely remove the element
+            formDiv.remove();
+
+            // Update TOTAL_FORMS count
+            const totalFormsInput = document.getElementById("id_floor_set-TOTAL_FORMS");
+            if (totalFormsInput) {
+                totalFormsInput.value = parseInt(totalFormsInput.value) - 1;
+            }
+        } else {
+            // For existing forms, mark the hidden DELETE checkbox
+            const deleteInput = formDiv.querySelector("input[type='hidden'][name*='DELETE']");
+            if (deleteInput) {
+                deleteInput.value = "on"; // Mark for deletion
+            }
+
+            // Hide the form visually
+            formDiv.style.display = "none";
+
+
+        }
+    }
+});
+
+            // logic for staff-role
+document.addEventListener("DOMContentLoaded", function () {
+    const staffRoleContainer = document.getElementById("staff-role-container");
+    const addStaffRoleButton = document.getElementById("add-staff-role");
+    let staffRoleIndex = parseInt(document.getElementById("id_staff-TOTAL_FORMS").value);
+
+    // Додавання нової форми
+    addStaffRoleButton.addEventListener("click", function () {
+        const newStaffRoleDiv = document.createElement("div");
+        newStaffRoleDiv.classList.add("form-group", "d-flex", "align-items-center");
+        newStaffRoleDiv.setAttribute("data-form-index", staffRoleIndex);
+
+        newStaffRoleDiv.innerHTML = `
+            <label for="id_staff-${staffRoleIndex}-user" class="font-weight-bold mr-2">Користувач</label>
+            <select name="staff-${staffRoleIndex}-user" class="form-control select2" id="id_staff-${staffRoleIndex}-user">
+                {% for user in staff_formset.form.fields.user.queryset %}
+                    <option value="{{ user.id }}" data-role="{{ user.role }}">{{ user.name }}</option>
+                {% endfor %}
+            </select>
+            <label for="id_staff-${staffRoleIndex}-role" class="font-weight-bold mr-2 ml-4">Роль</label>
+            <input type="text" name="staff-${staffRoleIndex}-role" class="form-control" id="id_staff-${staffRoleIndex}-role" readonly>
+            <input type="hidden" name="staff-${staffRoleIndex}-DELETE" id="id_staff-${staffRoleIndex}-DELETE">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-danger remove-staff-role">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </span>
+        `;
+
+        // Додаємо нову форму до контейнера
+        staffRoleContainer.appendChild(newStaffRoleDiv);
+
+        // Оновлюємо TOTAL_FORMS
+        const totalFormsInput = document.getElementById("id_staff-TOTAL_FORMS");
+        totalFormsInput.value = staffRoleIndex + 1;
+        staffRoleIndex++;
+
+        // Логіка видалення
+        newStaffRoleDiv.querySelector(".remove-staff-role").addEventListener("click", function () {
+            handleStaffRoleDelete(newStaffRoleDiv, true);
+        });
+
+        // Додаємо логіку автозаповнення ролі
+        newStaffRoleDiv.querySelector(".select2").addEventListener("change", function () {
+            const selectedOption = this.options[this.selectedIndex];
+            const roleField = newStaffRoleDiv.querySelector(`input[name="staff-${staffRoleIndex - 1}-role"]`);
+            if (roleField) {
+                roleField.value = selectedOption.dataset.role || "";
+            }
+        });
+    });
+
+    // Логіка видалення існуючих форм
+    document.querySelectorAll(".remove-staff-role").forEach(button => {
+        button.addEventListener("click", function () {
+            const formDiv = button.closest(".form-group");
+            handleStaffRoleDelete(formDiv, false);
+        });
+    });
+
+    // Обробка видалення форми
+    function handleStaffRoleDelete(formDiv, isNewForm) {
+        if (!formDiv) return;
+
+        if (isNewForm) {
+            // Для нових форм просто видаляємо елемент
+            formDiv.remove();
+
+            // Оновлення TOTAL_FORMS
+            const totalFormsInput = document.getElementById("id_staff-TOTAL_FORMS");
+            if (totalFormsInput) {
+                totalFormsInput.value = parseInt(totalFormsInput.value) - 1;
+            }
+        } else {
+            // Для існуючих форм відмічаємо поле DELETE
+            const deleteInput = formDiv.querySelector("input[type='hidden'][name*='DELETE']");
+            if (deleteInput) {
+                deleteInput.value = "on"; // Помічаємо для видалення
+            }
+
+            // Приховуємо форму
+            formDiv.style.display = "none";
+        }
+    }
+});
+
+            </script>
+        {% endblock extra_js %}
+    </body>
+</html>

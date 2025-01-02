@@ -71,7 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ]
 
     def __str__(self):
-        return self.email
+        return self.name if self.name else self.email
 
     def has_permission(self, perm_codename):
         """

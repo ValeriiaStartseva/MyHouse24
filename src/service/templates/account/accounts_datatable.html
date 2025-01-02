@@ -1,0 +1,117 @@
+{% extends "admin/adminlte_base.html" %}
+{% load static %}
+{% block breadcrumb %}
+    Статті прихід/розхід
+{% endblock breadcrumb %}
+{% block page_title %}
+    Статті прихід/розхід
+{% endblock page_title %}
+{% block extra_css %}
+    <link href="{% static 'adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}"
+          rel="stylesheet">
+    <link href="{% static 'adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}"
+          rel="stylesheet">
+    <link href="{% static 'ajax_datatable/css/style.css' %}" rel="stylesheet">
+    <style>
+    .text-success {
+    color: green;
+    font-weight: bold;
+}
+
+.text-danger {
+    color: red;
+    font-weight: bold;
+}
+    #usersStaffTable {
+        width: 100%;
+    }
+    </style>
+{% endblock extra_css %}
+{% block content %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-end mb-3">
+                        <a href="{% url 'create-account' %}" class="btn btn-success">Додати статтю</a>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-end mb-3">
+                                <button id="clear-filters" class="btn btn-default btn-xs">Очистити</button>
+                            </div>
+                            <table id="usersStaffTable"
+                                   class="table table-bordered table-striped table-hover"
+                                   style="width: 100%">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+{% block extra_js %}
+    <script src="{% static 'adminlte/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+    <script>
+$(document).ready(function() {
+    const $table = $('#usersStaffTable');
+    AjaxDatatableViewUtils.initialize_table(
+        $table,
+        "{% url 'accounts-datatable' %}",
+        {
+            scrollX: true,
+            dom: 't<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>', searching: false, info: false, lengthChange: false, language: { "emptyTable": "Дані у таблиці відсутні", paginate: { previous: "<<", next: ">>"
+                }
+            }
+        }
+    );
+    $(document).ready(function() {
+    $('#clear-filters').on('click', function() {
+        location.reload();
+    });
+
+    $table.on('click', 'tbody tr', function(event) {
+        const userId = $(this).data('id');
+
+        // Перевірка, чи натиснуто на елемент кнопки у колонці дій
+        if (!$(event.target).closest('.btn').length && userId) {
+            const url = `{% url 'user-staff-profile' user_id=0 %}`.replace('0', userId);
+            window.location.href = url;
+        }
+    });
+});
+
+
+});
+
+$(document).on('click', '.delete-user-btn', function(event) {
+    event.preventDefault();
+    let button = $(this);
+    let deleteUrl = button.data('url');
+
+    if (confirm('Ви впевнені, що хочете видалити статтю?')) {
+        $.ajax({
+            url: deleteUrl,
+            type: 'DELETE',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#usersStaffTable').DataTable().ajax.reload();
+                } else {
+                    alert('Сталася помилка при видаленні статті.');
+                }
+            },
+            error: function() {
+                alert('Сталася помилка при видаленні статті.');
+            }
+        });
+    }
+});
+    </script>
+{% endblock extra_js %}

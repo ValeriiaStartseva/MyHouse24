@@ -1,0 +1,61 @@
+{% extends "admin/adminlte_base.html" %}
+{% load static %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'accounts' %}">Статті прихід/розхід</a>
+        </li>
+        <li class="breadcrumb-item active">
+            {% if form.instance.pk %}
+                Редагувати статтю
+            {% else %}
+                Нова стаття
+            {% endif %}
+        </li>
+    </ol>
+{% endblock breadcrumb %}
+{% block page_title %}
+    {% if form.instance.pk %}
+        Редагувати статтю
+    {% else %}
+        Нова стаття
+    {% endif %}
+{% endblock page_title %}
+{% block content %}
+    <div class="card card-default">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <!-- Main form -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form.name.label_tag }}
+                            {{ form.name }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.type.label_tag }}
+                            {{ form.type }}
+                        </div>
+                    </div>
+                </div>
+                <!-- Buttons -->
+                <div class="row mt-4">
+                    <div class="col-12 d-flex justify-content-end">
+                        <a href="{% url 'accounts' %}" class="btn btn-secondary mr-2">Відмінити</a>
+                        <button type="submit" class="btn btn-success">
+                            {% if form.instance.pk %}
+                                Оновити
+                            {% else %}
+                                Зберегти
+                            {% endif %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+{% block extra_js %}
+    <script></script>
+{% endblock extra_js %}

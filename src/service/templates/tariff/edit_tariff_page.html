@@ -1,0 +1,234 @@
+{% extends "admin/adminlte_base.html" %}
+{% load static %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'tariffs' %}">Тарифи</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'tariff_profile' tariff.pk %}">Тариф: {{ tariff.name }}</a>
+        </li>
+        <li class="breadcrumb-item active">Тариф: {{ tariff.name }}</li>
+    </ol>
+{% endblock breadcrumb %}
+{% block page_title %}
+    Тариф: {{ tariff.name }}
+{% endblock page_title %}
+<title>Новий тариф</title>
+<style></style>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            {% block content %}
+                <div class="card card-default">
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <!-- Main form -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {{ tariff_form.name.label_tag }}
+                                        {{ tariff_form.name }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ tariff_form.description.label_tag }}
+                                        {{ tariff_form.description }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Formset for services -->
+                            <div class="row">
+                                <div class="col-12">
+                                    {{ service_price_formset.management_form }}
+                                    <div id="services-container">
+                                        {% for form in service_price_formset %}
+                                            <div class="form-row align-items-center mb-3"
+                                                 data-form-index="{{ forloop.counter0 }}">
+                                                <div class="col-md-4">
+                                                    <label for="id_service_price-{{ forloop.counter0 }}-service">Послуга</label>
+                                                    {{ form.id }}
+                                                    {{ form.service }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Ціна</label>
+                                                    {{ form.price }}
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label>Валюта</label>
+                                                    <input type="text" class="form-control" value="грн" readonly>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="flex-grow-1">
+                                                        <label class="font-weight-bold"
+                                                               for="id_service_price-{{ forloop.counter0 }}-unit">
+                                                            Од. виміру
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   class="form-control"
+                                                                   id="id_service_price-{{ forloop.counter0 }}-unit"
+                                                                   value="{{ form.instance.service.unit_of_change.name }}"
+                                                                   readonly>
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-danger remove-service-price">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% if form.instance.pk %}{{ form.DELETE.as_hidden }}{% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-success" id="add-service">Додати послугу</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Buttons -->
+                            <div class="row mt-4">
+                                <div class="col-12 d-flex justify-content-end">
+                                    <a href="{% url 'tariffs' %}" class="btn btn-secondary mr-2">Відмінити</a>
+                                    <button type="submit" class="btn btn-success">Зберегти</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% endblock content %}
+        </div>
+    </div>
+</body>
+{% block extra_js %}
+    <script>
+        function initializeExistingForms() {
+            // Отримуємо всі існуючі форми
+            document.querySelectorAll(".form-row").forEach(formRow => {
+                const serviceSelect = formRow.querySelector("select[name*='-service']");
+                const unitField = formRow.querySelector("input[id*='unit']");
+
+                if (serviceSelect && unitField) {
+                    // Додаємо обробник події для оновлення одиниці виміру
+                    serviceSelect.addEventListener("change", function () {
+                        const selectedOption = this.options[this.selectedIndex];
+                        unitField.value = selectedOption.dataset.unit || "";
+                    });
+
+                    // Заповнюємо поле одиниці виміру при завантаженні сторінки (якщо обране значення вже є)
+                    const initialSelectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+                    if (initialSelectedOption) {
+                        unitField.value = initialSelectedOption.dataset.unit || "";
+                    }
+                }
+            });
+        }
+
+        // logic for formset
+        document.addEventListener("DOMContentLoaded", function () {
+            const servicePriceContainer = document.getElementById("services-container");
+            const addServicePriceButton = document.getElementById("add-service");
+            let servicePriceIndex = parseInt(document.getElementById("id_service_price-TOTAL_FORMS").value);
+            initializeExistingForms();
+
+            // Додавання нової форми
+            addServicePriceButton.addEventListener("click", function () {
+                const newServicePriceDiv = document.createElement("div");
+                newServicePriceDiv.classList.add("form-row", "align-items-center", "mb-3");
+                newServicePriceDiv.setAttribute("data-form-index", servicePriceIndex);
+
+                newServicePriceDiv.innerHTML = `
+            <div class="col-md-4">
+        <label for="id_service_price-${servicePriceIndex}-service">Послуга</label>
+        <select name="service_price-${servicePriceIndex}-service" class="form-control select2" id="id_service_price-${servicePriceIndex}-service" data-index="${servicePriceIndex}">
+            {% for service in services %}
+                <option value="{{ service.id }}" data-unit="{{ service.unit_of_change.name }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+            <div class="col-md-3">
+                <label for="id_service_price-${servicePriceIndex}-price">Ціна</label>
+                <input type="number" name="service_price-${servicePriceIndex}-price" class="form-control" id="id_service_price-${servicePriceIndex}-price">
+            </div>
+            <div class="col-md-2">
+                <label>Валюта</label>
+                <input type="text" class="form-control" value="грн" readonly>
+            </div>
+<div class="d-flex align-items-center gap-3">
+        <div class="flex-grow-1">
+            <label class="font-weight-bold" for="id_service_price-${servicePriceIndex}-unit">Од. виміру</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="id_service_price-${servicePriceIndex}-unit" readonly>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger remove-service-price">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="service_price-${servicePriceIndex}-DELETE" id="id_service_price-${servicePriceIndex}-DELETE">
+</div>
+        `;
+
+                // Додаємо нову форму до контейнера
+                servicePriceContainer.appendChild(newServicePriceDiv);
+
+                // Оновлюємо TOTAL_FORMS
+                const totalFormsInput = document.getElementById("id_service_price-TOTAL_FORMS");
+                totalFormsInput.value = servicePriceIndex + 1;
+                servicePriceIndex++;
+
+
+                // Логіка для автозаповнення одиниці виміру
+                newServicePriceDiv.querySelector(".select2").addEventListener("change", function () {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const unitField = newServicePriceDiv.querySelector(`#id_service_price-${servicePriceIndex - 1}-unit`);
+                    if (unitField) {
+                        unitField.value = selectedOption.dataset.unit || "";
+                    }
+                });
+
+
+                // Логіка видалення
+                newServicePriceDiv.querySelector(".remove-service-price").addEventListener("click", function () {
+                    handleServicePriceDelete(newServicePriceDiv, true);
+                });
+            });
+
+
+            // Логіка видалення існуючих форм
+            document.querySelectorAll(".remove-service-price").forEach(button => {
+                button.addEventListener("click", function () {
+                    const formDiv = button.closest(".form-row");
+                    handleServicePriceDelete(formDiv, false);
+                });
+            });
+
+            // Обробка видалення форми
+            function handleServicePriceDelete(formDiv, isNewForm) {
+                if (!formDiv) return;
+
+                if (isNewForm) {
+                    // Для нових форм просто видаляємо елемент
+                    formDiv.remove();
+
+                    // Оновлення TOTAL_FORMS
+                    const totalFormsInput = document.getElementById("id_service_price-TOTAL_FORMS");
+                    if (totalFormsInput) {
+                        totalFormsInput.value = parseInt(totalFormsInput.value) - 1;
+                    }
+                } else {
+                    // Для існуючих форм відмічаємо поле DELETE
+                    const deleteInput = formDiv.querySelector("input[type='hidden'][name*='DELETE']");
+                    if (deleteInput) {
+                        deleteInput.value = "on";
+                    }
+
+                    formDiv.style.setProperty("display", "none", "important");
+                }
+            }
+        });
+    </script>
+{% endblock extra_js %}

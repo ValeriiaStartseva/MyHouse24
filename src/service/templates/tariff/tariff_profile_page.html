@@ -1,0 +1,85 @@
+{% extends "admin/adminlte_base.html" %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'tariffs' %}">Тарифи</a>
+        </li>
+        <li class="breadcrumb-item active">Тариф: {{ tariff.name }}</li>
+    </ol>
+{% endblock breadcrumb %}
+{% block page_title %}
+    Тариф: {{ tariff.name }}
+{% endblock page_title %}
+{% load static %}
+<title>Тариф</title>
+<style></style>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            {% block content %}
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="{% url 'edit_tariff' tariff.pk %}" class="btn btn-success">Редагувати</a>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Назва тарифу</th>
+                                                    <td>{{ tariff.name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Опис</th>
+                                                    <td>{{ tariff.description }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title font-weight-bold">Послуги</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Послуга</th>
+                                                    <th>Од. вим.</th>
+                                                    <th>Ціна</th>
+                                                    <th>Валюта</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for service_price in service_prices %}
+                                                    <tr>
+                                                        <td>{{ forloop.counter }}</td>
+                                                        <td>{{ service_price.service.name }}</td>
+                                                        <td>{{ service_price.service.unit_of_change.name }}</td>
+                                                        <td>{{ service_price.price }}</td>
+                                                        <td>грн</td>
+                                                    </tr>
+                                                {% empty %}
+                                                    <tr>
+                                                        <td colspan="5" class="text-center">Послуги не додані</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% endblock content %}
+        </div>
+    </div>

@@ -1,0 +1,100 @@
+{% extends "admin/adminlte_base.html" %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'apartments' %}">Квартири</a>
+        </li>
+        <li class="breadcrumb-item active">Квартира №{{ apartment.number }},  {{ apartment.house.name }}</li>
+    </ol>
+{% endblock breadcrumb %}
+{% block page_title %}
+    Квартира №{{ apartment.number }},  {{ apartment.house.name }}
+{% endblock page_title %}
+{% load static %}
+    <head>
+        <title>Користувач</title>
+        <style>
+            .table th {
+              width: 200px;
+              font-weight: bold;
+              background-color: #f8f9fa;
+            }
+
+            .table td {
+              vertical-align: middle;
+            }
+
+
+            #usersStaffTable tbody tr {
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            #usersStaffTable tbody tr:hover {
+                background-color: #f1f1f1;
+            }
+        </style>
+    </head>
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+                {% block content %}
+                    <section class="content">
+                        <div class="container-fluid">
+                            <div class="d-flex justify-content-end mb-3">
+                                <a href="{% url 'edit_apartment' apartment.pk %}"
+                                   class="btn btn-success">Редагувати квартиру</a>
+                            </div>
+                            <div class="row">
+                                <!-- Таблиця -->
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Рахунок</th>
+                                                        {#<td>{{ house.name }}</td>#}
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Номер квартири</th>
+                                                        <td>{{ apartment.number }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Площа</th>
+                                                        <td>{{ apartment.apartment_area }} м²</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Дім</th>
+                                                        <td>{{ apartment.house.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Секція</th>
+                                                        <td>{{ apartment.section.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Поверх</th>
+                                                        <td>{{ apartment.floor.number }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Власник</th>
+                                                        <td>{{ apartment.owner }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Тариф</th>
+                                                        <td>{{ apartment.tariff.name }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                {% endblock content %}
+            </div>
+        </div>
+    </body>
+

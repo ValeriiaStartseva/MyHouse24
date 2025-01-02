@@ -1,9 +1,10 @@
+from allauth.account.views import LoginView
 from django.contrib.auth import login
-from django.urls import reverse_lazy
 from django.http import JsonResponse
+from django.urls import reverse_lazy
+
 from src.users.forms.login_form import CustomLoginForm
 from src.users.utils import verify_recaptcha, is_email_verified
-from allauth.account.views import LoginView
 
 
 class CustomLoginView(LoginView):
@@ -17,7 +18,6 @@ class CustomLoginView(LoginView):
         role = self.request.POST.get("role")
 
         if verify_recaptcha(recaptcha_response):
-            # Отримання користувача після того, як форма дійсна
             user = form.user
 
             if user:
@@ -49,5 +49,4 @@ class CustomLoginView(LoginView):
             return self.form_invalid(form)
 
     def form_invalid(self, form):
-        print("Form is invalid. Errors:", form.errors)
         return JsonResponse({"errors": form.errors}, status=400)

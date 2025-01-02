@@ -1,13 +1,14 @@
 from django.db import models
-from src.houses.models import Apartment, House, Section
-from src.service.models import Service
+from src.houses.models import House, Section
+from src.apartments.models import Apartment
+from src.service.models import Service, Account
 from src.users.models import User
 
 
 class Receipt(models.Model):  # квитанція
     RECEIPT_PAYMENT_STATUS_CHOICES = (
         ("paid", "оплачено"),
-        ("unpaid", "неоплачено"),
+        ("unpaid", "не оплачено"),
         ("part paid", "оплачено частково"),
     )
 
@@ -29,7 +30,7 @@ class Receipt(models.Model):  # квитанція
     amount = models.FloatField()
 
 
-class PersonalAccount(models.Model):  # особистий рахунок
+class PersonalAccount(models.Model):
     STATUS_CHOICES = (
         ("active", "активний"),
         ("disabled", "неактивний"),
@@ -40,12 +41,6 @@ class PersonalAccount(models.Model):  # особистий рахунок
     house = models.ForeignKey(House, on_delete=models.CASCADE)
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
-
-
-class Account(models.Model):
-    TYPE_CHOICES = (("income", "Приходи"), ("expenses", "Витрати"))
-    name = models.CharField(max_length=30)
-    type = models.CharField(choices=TYPE_CHOICES, default="income", max_length=15)
 
 
 class InStatement(models.Model):  # прихідна відомість
@@ -62,7 +57,7 @@ class InStatement(models.Model):  # прихідна відомість
     status = models.BooleanField(default=False)
 
 
-class ExStatement(models.Model):  # розхідна видомість
+class ExStatement(models.Model):  # розхідна відомість
     number = models.IntegerField()
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     amount = models.FloatField()

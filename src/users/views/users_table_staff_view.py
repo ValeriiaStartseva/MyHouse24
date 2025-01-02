@@ -1,10 +1,8 @@
-from django.http import JsonResponse
 from src.users.models import User
 from src.roles.models import RolePermission
 
 
 from ajax_datatable import AjaxDatatableView
-from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import TemplateView
 from django.urls import reverse
 
@@ -13,6 +11,7 @@ class UsersStaffListView(TemplateView):
     template_name = "users/admin/users_table_staff.html"
 
 
+# TODO: Додати логіку для відправлення листа
 class UsersStaffAjaxDatatableView(AjaxDatatableView):
     model = User
     title = "Користувачі"
@@ -80,12 +79,14 @@ class UsersStaffAjaxDatatableView(AjaxDatatableView):
             reverse("users-staff-delete", kwargs={"pk": obj.pk}),
         )
 
-    def get(self, request, *args, **kwargs):
-        if "draw" not in request.GET:
-            request.GET = request.GET.copy()
-            request.GET["draw"] = "1"
-        try:
-            return super().get(request, *args, **kwargs)
-        except MultiValueDictKeyError as e:
-            missing_key = e.args[0]
-            return JsonResponse({"error": f"Missing parameter: {missing_key}"})
+
+# TODO: Видалити цей метод, якщо він не потрібен
+# def get(self, request, *args, **kwargs):
+#     if "draw" not in request.GET:
+#         request.GET = request.GET.copy()
+#         request.GET["draw"] = "1"
+#     try:
+#         return super().get(request, *args, **kwargs)
+#     except MultiValueDictKeyError as e:
+#         missing_key = e.args[0]
+#         return JsonResponse({"error": f"Missing parameter: {missing_key}"})

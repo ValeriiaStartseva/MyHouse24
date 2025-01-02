@@ -1,0 +1,189 @@
+{% extends "admin/adminlte_base.html" %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'houses' %}">Дома</a>
+        </li>
+        <li class="breadcrumb-item active">{{ house.name }}</li>
+    </ol>
+{% endblock breadcrumb %}
+{% block page_title %}
+    {{ house.name }}
+{% endblock page_title %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description"
+              content="Створення облікового запису для адміністратора">
+        <meta name="keywords" content="обліковий запис, адміністратор, підтримка">
+        <title>Користувач</title>
+        <style>
+            .table th {
+              width: 200px;
+              font-weight: bold;
+              background-color: #f8f9fa;
+            }
+
+            .table td {
+              vertical-align: middle;
+            }
+
+            .badge-secondary {
+              background-color: #6c757d;
+            }
+
+            .badge-success {
+              background-color: #28a745;
+            }
+
+            .badge-danger {
+              background-color: #dc3545;
+            }
+
+            #usersStaffTable tbody tr {
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            #usersStaffTable tbody tr:hover {
+                background-color: #f1f1f1;
+            }
+        </style>
+    </head>
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+                {% block content %}
+                    <section class="content">
+                        <div class="container-fluid">
+                            <div class="d-flex justify-content-end mb-3">
+                                <a href="{% url 'house-edit' house.pk %}" class="btn btn-success">Редагувати дім</a>
+                            </div>
+                            <div class="row">
+                                <!-- Таблиця -->
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Назва</th>
+                                                        <td>{{ house.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Адреса</th>
+                                                        <td>{{ house.adress }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Секцій</th>
+                                                        <td>{{ sections_count }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Поверхів</th>
+                                                        <td>{{ floors_count }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Користувачі</th>
+                                                        <td>
+                                                            {% for staff in staff %}
+                                                                {{ staff.user.role }}:
+                                                                <a href="{% url 'user-staff-profile' staff.user.id %}">{{ staff.user.name }}</a>
+                                                                <br>
+                                                            {% endfor %}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-container">
+                                        <!-- Велике зображення -->
+                                        <div class="large-image mb-3">
+                                            {% if house.image1 %}
+                                                <img src="{{ house.image1.url }}"
+                                                     alt="Зображення #1"
+                                                     class="img-fluid img-thumbnail"
+                                                     style="width: 100%;
+                                                            height: 300px;
+                                                            object-fit: cover">
+                                            {% else %}
+                                                <img src="{% static 'img/pre_picture.jpeg' %}"
+                                                     alt="Зображення #1"
+                                                     class="img-fluid img-thumbnail">
+                                            {% endif %}
+                                        </div>
+                                        <!-- Маленькі зображення -->
+                                        <div class="row">
+                                            <div class="col-6">
+                                                {% if house.image2 %}
+                                                    <img src="{{ house.image2.url }}"
+                                                         alt="Зображення #2"
+                                                         class="img-fluid img-thumbnail"
+                                                         style="width: 100%;
+                                                                height: 190px;
+                                                                object-fit: cover">
+                                                {% else %}
+                                                    <img src="{% static 'img/pre_picture.jpeg' %}"
+                                                         alt="Зображення #2"
+                                                         class="img-fluid img-thumbnail">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-6">
+                                                {% if house.image3 %}
+                                                    <img src="{{ house.image3.url }}"
+                                                         alt="Зображення #3"
+                                                         class="img-fluid img-thumbnail"
+                                                         style="width: 100%;
+                                                                height: 190px;
+                                                                object-fit: cover">
+                                                {% else %}
+                                                    <img src="{% static 'img/pre_picture.jpeg' %}"
+                                                         alt="Зображення #3"
+                                                         class="img-fluid img-thumbnail">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-6">
+                                                {% if house.image4 %}
+                                                    <img src="{{ house.image4.url }}"
+                                                         alt="Зображення #4"
+                                                         class="img-fluid img-thumbnail"
+                                                         style="width: 100%;
+                                                                height: 190px;
+                                                                object-fit: cover">
+                                                {% else %}
+                                                    <img src="{% static 'img/pre_picture.jpeg' %}"
+                                                         alt="Зображення #4"
+                                                         class="img-fluid img-thumbnail">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-6">
+                                                {% if house.image5 %}
+                                                    <img src="{{ house.image5.url }}"
+                                                         alt="Зображення #5"
+                                                         class="img-fluid img-thumbnail"
+                                                         style="width: 100%;
+                                                                height: 190px;
+                                                                object-fit: cover">
+                                                {% else %}
+                                                    <img src="{% static 'img/pre_picture.jpeg' %}"
+                                                         alt="Зображення #5"
+                                                         class="img-fluid img-thumbnail">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                {% endblock content %}
+            </div>
+        </div>
+    </body>
+</html>

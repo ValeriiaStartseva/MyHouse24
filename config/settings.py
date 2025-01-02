@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from decouple import config
 from dotenv import load_dotenv
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "django.contrib.sites",
+    "debug_toolbar",
     # custom apps
     "src.core",
     "src.users",
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     "src.service",
     "src.payments_section",
     "src.statistic",
+    "src.apartments",
 ]
 
 # Middleware for handling requests and sessions
@@ -58,11 +61,15 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 # URL configuration
 ROOT_URLCONF = "config.urls"
-
 
 AUTH_USER_MODEL = "users.User"
 
@@ -147,7 +154,6 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 # Email configuration for sending confirmation and notifications
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-
 EMAIL_HOST = config("EMAIL_HOST")
 EMAIL_PORT = config("EMAIL_PORT", cast=int)
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
@@ -163,7 +169,7 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # Expiry period for confirmation link
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # Expiry period for confirmation a link
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True  # Automatic login after email confirmation
 
 # reCAPTCHA keys for form verification

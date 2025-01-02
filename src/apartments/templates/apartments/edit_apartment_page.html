@@ -1,0 +1,159 @@
+{% extends "admin/adminlte_base.html" %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+
+        <li class="breadcrumb-item active"><a href="{% url 'apartment-profile' apartment.id %}">Квартира
+            №{{ apartment.number }}, {{ apartment.house.name }}</a></li>
+        <li class="breadcrumb-item active">Редагування</li>
+    </ol>
+{% endblock breadcrumb %}
+{% block page_title %}
+    Редагування квартири №{{ apartment.number }},  {{ apartment.house.name }}
+{% endblock page_title %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CRM Admin Panel">
+    <meta name="keywords" content="admin panel, crm">
+    <title>Редагувати квартиру</title>
+    {{ form.media }}
+    <style>
+        .form-group.has-error .form-control,
+        .form-group.has-error .input-group-addon {
+            border-color: #dd4b39;
+            box-shadow: none;
+        }
+
+        .form-group.has-success .form-control,
+        .form-group.has-success .input-group-addon {
+            border-color: #00a65a;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        {% block content %}
+            <div class="card card-default">
+                <div class="card-body">
+                    <form method="post"
+                          enctype="multipart/form-data"
+                          action="{% url 'edit_apartment' apartment.pk %}">
+                        {% csrf_token %}
+                        <!-- Apartment Form -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Номер квартири -->
+                                <div class="form-group">
+                                    {{ form.number.label_tag }}
+                                    {{ form.number }}
+                                </div>
+                                <!-- Площа квартири -->
+                                <div class="form-group">
+                                    {{ form.apartment_area.label_tag }}
+                                    {{ form.apartment_area }}
+                                </div>
+                                <!-- Будинок -->
+                                <div class="form-group">
+                                    {{ form.house.label_tag }}
+                                    {{ form.house }}
+                                </div>
+                                <!-- Секція -->
+                                <div class="form-group">
+                                    {{ form.section.label_tag }}
+                                    {{ form.section }}
+                                </div>
+                                <!-- Поверх -->
+                                <div class="form-group">
+                                    {{ form.floor.label_tag }}
+                                    {{ form.floor }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Власник -->
+                                <div class="form-group">
+                                    {{ form.owner.label_tag }}
+                                    {{ form.owner }}
+                                </div>
+                                <!-- Тариф -->
+                                <div class="form-group">
+                                    {{ form.tariff.label_tag }}
+                                    {{ form.tariff }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12 d-flex justify-content-end">
+                                <a href="{% url 'apartments' %}" class="btn btn-secondary mr-2">Відмінити</a>
+                                <button type="submit" class="btn btn-success">Зберегти</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endblock content %}
+    </div>
+</div>
+{% block extra_js %}
+    <script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'adminlte/plugins/select2/js/select2.full.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2({
+                theme: 'bootstrap4',
+                width: '100%',
+                allowClear: true
+            });
+            $('.select2-hidden-accessible').removeAttr('aria-hidden tabindex');
+            $('.select2-container').hide(); // Hide the Select2 container
+            $('#id_house').on('change', function () {
+                const houseId = $(this).val();
+
+                $('#id_section').val(null).trigger('change');
+                $('#id_floor').val(null).trigger('change');
+
+                $('#id_house').on('change', function () {
+                    const houseId = $(this).val();
+                    $.ajax({
+                        url: '{% url "get_sections_and_floors" %}',
+                        data: {
+                            action: "get_sections",
+                            house_id: houseId,
+                        },
+                        success: function (data) {
+                            $('#id_section').empty().append('<option value="">Оберіть секцію</option>');
+                            $.each(data, function (index, section) {
+                                $('#id_section').append(
+                                    `<option value="${section.id}">${section.name}</option>`
+                                );
+                            });
+                        },
+                    });
+
+                    $.ajax({
+                        url: '{% url "get_sections_and_floors" %}',
+                        data: {
+                            action: "get_floors",
+                            house_id: houseId,
+                        },
+                        success: function (data) {
+                            $('#id_floor').empty().append('<option value="">Оберіть поверх</option>');
+                            $.each(data, function (index, floor) {
+                                $('#id_floor').append(
+                                    `<option value="${floor.id}">${floor.number}</option>`
+                                );
+                            });
+                        },
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock extra_js %}
+</body>
+</html>

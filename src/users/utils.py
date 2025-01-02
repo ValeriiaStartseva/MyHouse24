@@ -1,9 +1,11 @@
-import requests
-from allauth.account.models import EmailAddress
 import secrets
 import string
-from .tasks import send_email_task
+
+import requests
+from allauth.account.models import EmailAddress
 from django.conf import settings
+
+from .tasks import send_email_task
 
 
 def verify_recaptcha(recaptcha_response):
@@ -12,14 +14,9 @@ def verify_recaptcha(recaptcha_response):
         r = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data)
         result = r.json()
 
-        # Додатковий відладочний друк для помилок reCAPTCHA
-        if not result.get("success", False):
-            print("reCAPTCHA verification failed:", result)
-
         return result.get("success", False)
 
     except requests.exceptions.RequestException:
-        # Повертає False у випадку помилок
         return False
 
 

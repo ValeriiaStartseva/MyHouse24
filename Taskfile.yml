@@ -44,6 +44,5 @@ tasks:
         echo "Enter your commit message:"
         read commit_message
         git commit -m "$commit_message"
-      - git add .  # Додає файли, які були змінені pre-commit хуками
-      - git commit --amend --no-edit  # Додає зміни до попереднього коміту
       - git push origin main
+
